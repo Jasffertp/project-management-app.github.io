@@ -19,14 +19,13 @@ function ProjectForm() {
         {
           id: prevItems.length,
           name: name,
-          desc: description,
+          description: description,
           date: date,
-          tasks: {},
+          tasks: [],
+          isActive: false,
         },
       ];
     });
-
-    console.log(projectValue);
   };
   return (
     <form onSubmit={addNewProject}>

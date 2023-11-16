@@ -5,8 +5,7 @@ import projects from "../../Context/Context";
 import ProjectList from "../ProjectList/ProjectList";
 
 function Sidebar() {
-  const { projectValue, updateProjects, preview, updatePreview } =
-    useContext(projects);
+  const { preview, updatePreview } = useContext(projects);
 
   const openForm = function () {
     updatePreview("form");
@@ -15,7 +14,7 @@ function Sidebar() {
   return (
     <div>
       <Button onClick={openForm}>+ Add New Project</Button>
-      <ProjectList Projects={projectValue} />
+      <ProjectList />
     </div>
   );
 }

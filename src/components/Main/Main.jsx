@@ -3,9 +3,8 @@ import projects from "../../Context/Context";
 import ProjectForm from "../ProjectForm/ProjectForm";
 import ProjectView from "../ProjectView/ProjectView";
 
-function Main(props) {
-  let { projectValue, updateProjects, preview, updatePreview } =
-    useContext(projects);
+function Main() {
+  let { preview } = useContext(projects);
 
   if (preview === "form") {
     return <ProjectForm />;

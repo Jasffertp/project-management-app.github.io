@@ -1,13 +1,30 @@
-import React from "react";
+import React, { useContext } from "react";
+import projects from "../../Context/Context";
+import Button from "../Button/Button";
 
-function ProjectList(props) {
-  if (props.Projects.length !== 0) {
-    return props.Projects.map((el) => {
+function ProjectList() {
+  const { projectValue, updateProjects, updatePreview } = useContext(projects);
+
+  const showProject = (id) => {
+    updateProjects((prevItems) => {
+      return prevItems.map((project) => {
+        if (project.id === id) {
+          return { ...project, isActive: true };
+        } else {
+          return { ...project, isActive: false };
+        }
+      });
+    });
+
+    updatePreview("item");
+  };
+
+  if (projectValue.length !== 0) {
+    return projectValue.map((el) => {
       return (
-        <p key={el.id}>
-          {el.name} {el.description} {el.date} - tasks{" "}
-          {el.tasks ? "there are tasks" : "none"}
-        </p>
+        <div key={el.id} onClick={() => showProject(el.id)}>
+          {el.name}
+        </div>
       );
     });
   }

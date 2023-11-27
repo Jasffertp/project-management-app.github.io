@@ -3,8 +3,7 @@ import projects from "../../Context/Context";
 import ProjectTasks from "../ProjectsTasks/ProjectsTasks";
 
 function ProjectView() {
-  const { projectValue, updateProjects, preview, updatePreview } =
-    useContext(projects);
+  const { projectValue, updateProjects } = useContext(projects);
 
   const project = projectValue.filter((el) => el.isActive === true)[0];
 
@@ -34,21 +33,19 @@ function ProjectView() {
   };
 
   return (
-    <>
-      <div id={project.id}>
-        <h2>{project.name}</h2>
-        {project.description} {project.date} - tasks{" "}
-        <form onSubmit={formSubmitHandler}>
-          <input placeholder="Input task here" type="text" id="task" />
-          <button type="submit">Add task </button>
-        </form>
-        {project.tasks.length !== 0 ? (
-          <ProjectTasks tasks={project.tasks} removeTask={onRemoveTask} />
-        ) : (
-          "No additional tasks"
-        )}
-      </div>
-    </>
+    <div id={project.id}>
+      <h2>{project.name}</h2>
+      {project.description} {project.date} - tasks{" "}
+      <form onSubmit={formSubmitHandler}>
+        <input placeholder="Input task here" type="text" id="task" />
+        <button type="submit">Add task </button>
+      </form>
+      {project.tasks.length !== 0 ? (
+        <ProjectTasks tasks={project.tasks} removeTask={onRemoveTask} />
+      ) : (
+        "No additional tasks"
+      )}
+    </div>
   );
 }
 

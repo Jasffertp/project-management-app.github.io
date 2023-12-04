@@ -19,39 +19,67 @@ function ProjectForm() {
     date: true,
   });
 
-  const checkValidity = (items) => {
+  const checkValidity = () => {
     const dateVal =
-      date === undefined ? false : date.toDateString() < today.toDateString();
+      date === undefined || date === null
+        ? false
+        : date.toDateString() >= today.toDateString();
 
-    if (
-      items.target.name.value === "" ||
-      items.target.description.value === "" ||
-      dateVal
-    ) {
-      console.log("encountered error");
-      updateValidation(() => {
-        return {
-          name: items.target.name.value !== "" || false,
-          description: items.target.description.value !== "" || false,
-          date: date !== undefined || date > today || false,
-        };
-      });
+    updateValidation(() => {
+      return {
+        name: projectName !== "" || false,
+        description: projectDesc !== "" || false,
+        date: date !== undefined || date >= today || false,
+      };
+    });
 
-      return false;
-    }
+    return projectName !== "" || projectDesc !== "" || dateVal;
+  };
 
-    return true;
+  const onNameChange = (value) => {
+    setName(value);
+
+    updateValidation((prevValues) => {
+      return {
+        ...prevValues,
+        name: projectName !== "" || false,
+      };
+    });
+  };
+
+  const onDescChange = (value) => {
+    setDesc(value);
+
+    updateValidation((prevValues) => {
+      return {
+        ...prevValues,
+        description: projectDesc !== "" || false,
+      };
+    });
+  };
+
+  const onDateChange = (value) => {
+    console.log(value);
+    setDate(value);
+    console.log(date);
+
+    // updateValidation((prevValues) => {
+    //   return {
+    //     ...prevValues,
+    //     date:
+    //       date !== undefined ||
+    //       date.toDateString() >= today.toDateString() ||
+    //       false,
+    //   };
+    // });
   };
 
   const addNewProject = (items) => {
     items.preventDefault();
 
-    if (!checkValidity(items)) return;
+    if (!checkValidity()) return;
 
-    const [name, description] = [
-      items.target.name.value,
-      items.target.description.value,
-    ];
+    console.log("passed validity");
 
     const dateInput = date.toLocaleDateString();
 
@@ -60,8 +88,8 @@ function ProjectForm() {
         ...prevItems,
         {
           id: prevItems.length,
-          name: name,
-          description: description,
+          name: projectName,
+          description: projectDesc,
           date: dateInput,
           tasks: [],
           isActive: false,
@@ -75,7 +103,7 @@ function ProjectForm() {
       date: true,
     });
 
-    setDate();
+    setDate(today);
     setName("");
     setDesc("");
   };
@@ -96,7 +124,7 @@ function ProjectForm() {
                     !inputValidation.name ? "Please fill out this field" : ""
                   }
                   value={projectName}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => onNameChange(e.target.value)}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -105,7 +133,7 @@ function ProjectForm() {
                     label="Project Deadline"
                     id="date2"
                     value={date}
-                    onChange={(newDate) => setDate(newDate)}
+                    onChange={(newDate) => onDateChange(newDate)}
                     disablePast
                     slotProps={{
                       textField: {
@@ -134,7 +162,7 @@ function ProjectForm() {
                       : ""
                   }
                   value={projectDesc}
-                  onChange={(e) => setDesc(e.target.value)}
+                  onChange={(e) => onDescChange(e.target.value)}
                 />
               </Grid>
             </Grid>

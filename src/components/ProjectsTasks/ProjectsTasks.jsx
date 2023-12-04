@@ -1,17 +1,34 @@
+import { IconButton, List, ListItem, ListItemText } from "@mui/material";
 import React from "react";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 function ProjectTasks(props) {
   return (
-    <ul>
+    <List>
       {props.tasks.map((el, index) => {
         return (
-          <li>
-            {el}{" "}
-            <button onClick={() => props.removeTask(index)}>Remove task</button>
-          </li>
+          <ListItem
+            secondaryAction={
+              <IconButton onClick={() => props.removeTask(index)}>
+                <DeleteIcon color="red" />
+              </IconButton>
+            }
+          >
+            <ListItemText primary={el} />
+          </ListItem>
         );
       })}
-    </ul>
+    </List>
+    // <ul>
+    //   {props.tasks.map((el, index) => {
+    //     return (
+    //       <li key={index}>
+    //         {index + 1}.) {el}{" "}
+    //         <button onClick={() => props.removeTask(index)}>Remove task</button>
+    //       </li>
+    //     );
+    //   })}
+    // </ul>
   );
 }
 
